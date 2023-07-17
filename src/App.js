@@ -1,23 +1,34 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import "./App.css";
+import TodoList from "./Components/TodoList";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 function App() {
+  const [list, setList] = useState([]);
+  const [name, setName] = useState("");
+
+  const handleChangeName = (e) => {
+    e.preventDefault();
+
+    setName(e.target.value);
+  };
+
+  const handleAdd = () => {
+    setList((prev) => [...prev, name]);
+    setName("");
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>TODO App</h1>
+      <br />
+      <Form.Control value={name} onChange={handleChangeName} />
+      <Button variant="primary" onClick={handleAdd}>
+        Add
+      </Button>
+
+      <TodoList list={list} />
     </div>
   );
 }
